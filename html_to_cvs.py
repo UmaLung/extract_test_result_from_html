@@ -10,13 +10,13 @@ def read_html_file(html_file_name):
     return data
 
 
-def concatenate_items(new):
+def concatenate_items(data):
     """Extract necessary information from raw data.
     Reconstruct as 2D format """
 
     merge = []
     item = None
-    for line in new:
+    for line in data:
         if ('<p>' in line) or ('<h1>' in line):
             merge.append(line.strip().replace('<h1>', '***').replace('</h1>', '***').replace('<p>', 'Start/Stop Time:').replace('</p>', ''))
             continue
@@ -32,17 +32,17 @@ def concatenate_items(new):
     return merge
 
 
-def save_to_csv(csv_file_name, merge):
+def save_to_csv(csv_file_name, data):
     with open(csv_file_name, 'w', encoding = 'utf-8-sig') as f:
-        for line in merge:
+        for line in data:
             f.write(line + '\n')
 
 
 def main(html_file_name):
     csv_file_name = html_file_name.replace('html', 'csv')
     data = read_html_file(html_file_name)
-    merge = concatenate_items(data)
-    save_to_csv(csv_file_name, merge)
+    new = concatenate_items(data)
+    save_to_csv(csv_file_name, new)
 
 
 
